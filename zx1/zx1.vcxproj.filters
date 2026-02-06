@@ -44,6 +44,9 @@
     <ClCompile Include="连点器配置.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="n位大数运算.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test1.h">
