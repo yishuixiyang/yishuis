@@ -44,12 +44,6 @@
     <ClCompile Include="连点器配置.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Users\伊水兮漾\source\repos\zx1\01位随机.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Users\伊水兮漾\source\repos\zx1\n位大数运算.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test1.h">
