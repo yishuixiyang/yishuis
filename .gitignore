@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/zx1/2048.c
+/zx1/连点器配置.c
+/zx1/伊水迷宫.c
+/zx1/连点器.c

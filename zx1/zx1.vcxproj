@@ -130,6 +130,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Users\伊水兮漾\source\repos\zx1\01位随机.c" />
+    <ClCompile Include="..\..\Users\伊水兮漾\source\repos\zx1\n位大数运算.c" />
     <ClCompile Include="2048.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
