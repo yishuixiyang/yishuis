@@ -1,3 +1,7 @@
+/*
+ 算法导论5.4.4 在线雇佣函数的实现
+ 使用了结果k=n/e
+*/
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>

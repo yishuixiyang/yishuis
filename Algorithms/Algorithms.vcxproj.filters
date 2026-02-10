@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="5-4-4在线雇佣问题.c">
+    <ClCompile Include="C5-4-4-在线雇佣.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="T5-1-b位计数器.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
