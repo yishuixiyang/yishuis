@@ -26,9 +26,6 @@
     <ClCompile Include="归并排序.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="测试.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="tuxin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -45,6 +42,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="n位大数运算.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="算法导论-在线雇佣问题.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
