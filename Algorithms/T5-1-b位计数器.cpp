@@ -9,7 +9,7 @@ std::mt19937 gen(rd());
 std::uniform_real_distribution<double> dis(0.0, 1.0);
 int ni(int i)  //这里输出可以自己定义
 {
-	return 10*i;
+	return i*i;
 }
 int INCREMENT(int a,int b ) //a=n(i+1) b=n(i)
 {
@@ -29,7 +29,7 @@ int main()
 	{
 		if (result == (1 << b) - 1) break;
 		result += INCREMENT(ni(result + 1), ni(result));
-		std::cout <<"["<<i<< "]计数器显示" << result << ",对应n(" << result << ")：" << ni(result) << std::endl;
+		if(i==n)std::cout <<"["<<i<< "]计数器显示" << result << ",对应n(" << result << ")：" << ni(result) << std::endl;
 		//printf( "[%d]计数器显示%d,对应n(%d)：%d\n",i, result, result, ni(result) );
 	}
 }
