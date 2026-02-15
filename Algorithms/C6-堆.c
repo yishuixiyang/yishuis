@@ -10,11 +10,16 @@ int AHeapSize = 0;
 void* (*ciallo)(size_t) = malloc;
 void output(int A[])
 {
-	for (int i = 0; i < AHeapSize; i++)
+	for (int i = 0,j=1; i < AHeapSize; i++)
 	{
-		printf("%d:%d ", i + 1, A[i]);
+		if (i == (1 << j)-1)
+		{
+			printf("\n");
+			j++;
+		}
+		printf("%3d ",A[i]);
 	}
-	printf("\n");
+	printf("\n\n");
 }
 int PARENT(int i)
 {
@@ -28,7 +33,7 @@ int RIGHT(int i)
 {
 	return (i + 1) << 1;
 }
-void MAX_HEAPIFY(int i,int A[])
+void MAX_HEAPIFY(int A[],int i)
 {
 	int legest = 0;
 	int l = LEFT(i);
@@ -42,10 +47,10 @@ void MAX_HEAPIFY(int i,int A[])
 		t = A[i];
 		A[i] = A[legest];
 		A[legest] = t;
-		MAX_HEAPIFY(legest, A);
+		MAX_HEAPIFY(A,legest);
 	}
 }
-void MIN_HEAPIFY(int i, int A[])
+void MIN_HEAPIFY( int A[],int i)
 {
 	int least = 0;
 	int l = LEFT(i);
@@ -59,7 +64,21 @@ void MIN_HEAPIFY(int i, int A[])
 		t = A[i];
 		A[i] = A[least];
 		A[least] = t;
-		MAX_HEAPIFY(least, A);
+		MAX_HEAPIFY(A,least);
+	}
+}
+void BUILD_MAX_HEAP(int A[])//构造最大堆
+{
+	for (int i = (AHeapSize >> 1) - 1; i >= 0; i--)
+	{
+		MAX_HEAPIFY(A,i);
+	}
+}
+void BUILD_MIN_HEAP(int A[])//构造最小堆
+{
+	for (int i = (AHeapSize >> 1)-1; i >= 0; i--)
+	{
+		MIN_HEAPIFY(A, i);
 	}
 }
 int main()
@@ -79,8 +98,8 @@ int main()
 		heap[i] = rand() % 30;
 	}
 	output(heap);
-	MAX_HEAPIFY(0, heap);
+	BUILD_MAX_HEAP(heap);
 	output(heap);
-	MIN_HEAPIFY(0, heap);
+	BUILD_MIN_HEAP(heap);
 	output(heap);
 }
