@@ -149,6 +149,54 @@ void MAX_HEAP_INSERT(int** A,int key)//传入堆的指针的地址来更增加改堆的大小
 	(*A)[AHeapSize - 1] = -1;
 	HEAP_INCREASE_MAX(*A, AHeapSize - 1, key);
 }
+//最小优先队列
+int HEAP_MINIMUM(int A[])
+{
+	return A[0];
+}
+int HEAP_EXTRACT_MIN(int A[])//AHeapSize是全局变量
+{
+	if (AHeapSize < 1)
+	{
+		printf("错误");
+		return -1;
+	}
+	int min = A[0];
+	A[0] = A[AHeapSize - 1];
+	AHeapSize--;
+	MAX_HEAPIFY(A, 0, AHeapSize);
+	return min;
+}
+void HEAP_INCREASE_MIN(int A[], int i, int key)
+{
+	if (A[i] < key)
+	{
+		printf("无法添加\n");
+		return;
+	}
+	A[i] = key;
+	int t = 0;
+	while (i > 1 && A[i] < A[PARENT(i)])
+	{
+		t = A[i];
+		A[i] = A[PARENT(i)];
+		A[PARENT(i)] = t;
+		i = PARENT(i);
+	}
+}
+void MIN_HEAP_INSERT(int** A, int key)//传入堆的指针的地址来更增加改堆的大小
+{
+	AHeapSize += 1;
+	int* t = realloc(*A, AHeapSize * sizeof(int));
+	if (t == NULL)
+	{
+		printf("失败\n");
+		return;
+	}
+	*A = t;
+	(*A)[AHeapSize - 1] = 2147483647;
+	HEAP_INCREASE_MIN(*A, AHeapSize - 1, key);
+}
 int main()
 {
 	srand(time(NULL));
@@ -167,9 +215,9 @@ int main()
 		heap[i] = rand() % 100;
 	}
 	output(heap,AHeapSize);
-	BUILD_MAX_HEAP(heap, AHeapSize);
+	BUILD_MIN_HEAP(heap, AHeapSize);
 	output(heap, AHeapSize);
-	MAX_HEAP_INSERT(&heap, 521);
+	MIN_HEAP_INSERT(&heap, 11);
 	output(heap,AHeapSize);
 	
 	/*output(heapb,4);
