@@ -3,6 +3,9 @@
 
 其中数组下标从0开始，PARENT LEFT RIGHT更改了映射方式
 函数变量n位堆的大小，函数名遵循算法导论
+
+因为堆大小改变的实现比较麻烦，就遗留了问题
+（可以用realloc函数重新分配内存来解决）
 */
 
 #include <stdio.h>
@@ -97,11 +100,60 @@ void HEAPSORT(int A[], int n)
 		size--;
 	}
 }
+
+//最大优先队列
+int HEAP_MAXIMUM(int A[])
+{
+	return A[0];
+}
+int HEAP_EXTRACT_MAX(int A[])//AHeapSize是全局变量
+{
+	if (AHeapSize < 1)
+	{
+		printf("错误");
+		return -1;
+	}
+	int max = A[0];
+	A[0] = A[AHeapSize - 1];
+	AHeapSize--;
+	MAX_HEAPIFY(A, 0, AHeapSize);
+	return max;
+}
+void HEAP_INCREASE_MAX(int A[],int i,int key)
+{
+	if (A[i] > key)
+	{
+		printf("无法添加\n");
+		return;
+	}
+	A[i] = key;
+	int t = 0;
+	while (i > 1 && A[i] > A[PARENT(i)])
+	{
+		t = A[i];
+		A[i] = A[PARENT(i)];
+		A[PARENT(i)] = t;
+		i = PARENT(i);
+	}
+}
+void MAX_HEAP_INSERT(int** A,int key)//传入堆的指针的地址来更增加改堆的大小
+{
+	AHeapSize+=1;
+	int *t=realloc(*A, AHeapSize*sizeof(int));
+	if (t == NULL)
+	{
+		printf("失败\n");
+		return;
+	}
+	*A = t;
+	(*A)[AHeapSize - 1] = -1;
+	HEAP_INCREASE_MAX(*A, AHeapSize - 1, key);
+}
 int main()
 {
 	srand(time(NULL));
 	int* heap = NULL;
-	int heapb[] = {23,22,17};
+	int heapb[] = {23,22,17,12};
 	printf("输入堆大小:\n");
 	scanf_s("%d", &AHeapSize);
 	heap = (int*)ciallo(AHeapSize * sizeof(int));
@@ -115,11 +167,15 @@ int main()
 		heap[i] = rand() % 100;
 	}
 	output(heap,AHeapSize);
-	HEAPSORT(heap, AHeapSize);
-	//printf("dd");
+	BUILD_MAX_HEAP(heap, AHeapSize);
+	output(heap, AHeapSize);
+	MAX_HEAP_INSERT(&heap, 521);
 	output(heap,AHeapSize);
-
-	/*output(heapb,3);
-	HEAPSORT(heapb, 3);
-	output(heapb,3);*/
+	
+	/*output(heapb,4);
+	BUILD_MAX_HEAP(heapb, 4);
+	output(heapb,4);
+	HEAP_INCREASE_MAX(heapb, 3, 18);
+	output(heapb, 4);*/
+	free(heap);
 }
