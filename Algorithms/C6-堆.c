@@ -126,15 +126,12 @@ void HEAP_INCREASE_MAX(int A[],int i,int key)
 		printf("无法添加\n");
 		return;
 	}
-	A[i] = key;
-	int t = 0;
-	while (i > 1 && A[i] > A[PARENT(i)])
+	while (i > 1 && key > A[PARENT(i)])
 	{
-		t = A[i];
 		A[i] = A[PARENT(i)];
-		A[PARENT(i)] = t;
 		i = PARENT(i);
 	}
+	A[i] = key;
 }
 void MAX_HEAP_INSERT(int** A,int key)//传入堆的指针的地址来更增加改堆的大小
 {
@@ -197,6 +194,13 @@ void MIN_HEAP_INSERT(int** A, int key)//传入堆的指针的地址来更增加改堆的大小
 	(*A)[AHeapSize - 1] = 2147483647;
 	HEAP_INCREASE_MIN(*A, AHeapSize - 1, key);
 }
+//插入构造最大堆
+void INSERT_BUILD_MAX_HEAP(int *A)
+{
+	for (int i = 1; i < AHeapSize; i++) {
+		HEAP_INCREASE_MAX(A,i,A[i]);
+	}
+}
 int main()
 {
 	srand(time(NULL));
@@ -212,13 +216,33 @@ int main()
 	}
 	for(int i = 0; i < AHeapSize; i++)
 	{
-		heap[i] = rand() % 100;
+		heap[i] = rand()%100000000;
 	}
-	output(heap,AHeapSize);
-	BUILD_MIN_HEAP(heap, AHeapSize);
-	output(heap, AHeapSize);
-	MIN_HEAP_INSERT(&heap, 11);
-	output(heap,AHeapSize);
+	//插入构造最大堆和标准方法的时间比较 根据时钟数来比较
+	int start = 0, end = 0;
+	int* cheap = NULL;
+	cheap = (int*)ciallo(AHeapSize * sizeof(int));
+	if (cheap == NULL)
+	{
+		printf("分配失败");
+		exit(0);
+	}
+	for (int i = 0; i < AHeapSize; i++)
+	{
+		cheap[i] = heap[i];
+	}
+
+	
+	start = clock();
+	INSERT_BUILD_MAX_HEAP(cheap);
+	end = clock();
+	printf("插入: %d C\n", (end - start));
+
+	start = clock();
+	BUILD_MAX_HEAP(heap, AHeapSize);
+	end = clock();
+	printf("标准: %d C\n", (end - start));
+
 	
 	/*output(heapb,4);
 	BUILD_MAX_HEAP(heapb, 4);
@@ -226,4 +250,5 @@ int main()
 	HEAP_INCREASE_MAX(heapb, 3, 18);
 	output(heapb, 4);*/
 	free(heap);
+	free(cheap);
 }
