@@ -24,7 +24,7 @@
     <ClCompile Include="C6-堆.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="C7-1快速排序.c">
+    <ClCompile Include="C7-快速排序.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
