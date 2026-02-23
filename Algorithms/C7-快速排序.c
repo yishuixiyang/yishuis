@@ -80,22 +80,22 @@ int PARTITION_HOARE(int* A, int p, int r)//¿ìËÙÅÅĞò·¢Ã÷Õß Tony Hoare ×î³õÊ¹ÓÃµÄ·
 }
 void PARTITION_Dijkstra(int* A, int p, int r,int *lt,int *gt)//ÈıÏòÇĞ·Ö·¨
 {
-	int pivort = random(p, r), i = p;
+	int pivort = A[random(p, r)], i = p;
 	*lt = p, *gt = r;
 	while(i<=*gt)
 	{
-		if (A[i] < A[pivort])
+		if (A[i] < pivort)
 		{
 			swap(&A[*lt], &A[i]);
 			(*lt)++;
 			i++;
 		}
-		if (A[i] > A[pivort])
+		if (A[i] > pivort)
 		{
 			swap(&A[*gt], &A[i]);
 			(*gt)--;
 		}
-		if (A[i] == A[pivort])
+		if (A[i] == pivort)
 		{
 			i++;
 		}
@@ -143,6 +143,34 @@ void Dijkstra_QUICKSORT(int* A, int p, int r)//DijkstraµÄÈıÏòÇĞ·Ö¿ìËÙÅÅĞò
 		
 	}
 }
+void TAIL_RECURSIVE_QUICKSORT(int* A, int p, int r)//Î²µİ¹é¿ìËÙÅÅĞò
+{
+	int q = 0;
+	while (p < r)
+	{
+		q = PARTITION(A, p, r);
+		TAIL_RECURSIVE_QUICKSORT(A, p, q - 1);
+		p = q + 1;
+	}
+}
+void RE_TAIL_RECURSIVE_QUICKSORT(int* A, int p, int r)//ÓÅ»¯µÄÎ²µİ¹é¿ìËÙÅÅĞò
+{
+	int q = 0;
+	while (p < r)
+	{
+		q = PARTITION(A, p, r);
+		if (q - p < r - q)
+		{
+			RE_TAIL_RECURSIVE_QUICKSORT(A, p, q - 1);
+			p = q + 1;
+		}
+		else
+		{
+			RE_TAIL_RECURSIVE_QUICKSORT(A, p + 1, r);
+			r = q - 1;
+		}
+	}
+}
 //ÊäÈëÊä³öº¯Êı
 void input(int* A, int n)
 {
@@ -175,7 +203,7 @@ int main()
 	input(array, n);
 	printf("Ô­Êı×é: \n");
 	output(array, n);
-	Dijkstra_QUICKSORT(array, 0, n - 1);
+	RE_TAIL_RECURSIVE_QUICKSORT(array, 0, n - 1);
 	printf("ÅÅĞòºóÊı×é: \n");
 	output(array, n);
 
