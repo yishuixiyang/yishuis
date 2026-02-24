@@ -35,6 +35,15 @@ int random(int a, int b) //随机生成[a..b]的整数范围Z
 		if (num >= 0 && num <= n) return num + a;
 	}
 }
+int THREE_MID_RANDOM(int* A, int p, int r)//三数取中，但是会选中重复下标
+{
+	int r1 = random(p, r);
+	int r2 = random(p, r);
+	int r3 = random(p, r);
+	if ((A[r1] - A[r2]) * (A[r1] - A[r3]) <= 0) return r1;
+	if ((A[r2] - A[r1]) * (A[r2] - A[r3]) <= 0) return r2;
+	if ((A[r3] - A[r2]) * (A[r3] - A[r1]) <= 0) return r3;
+}
 //排序函数
 void swap(int* a, int* b)//交换元素
 {
