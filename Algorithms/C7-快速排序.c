@@ -9,6 +9,12 @@
 #include <time.h>
 int AHeapSize = 0;
 void* (*ciallo)(size_t) = malloc;
+typedef struct //区间结构体
+{
+	int a;
+	int b;
+} VAL;
+
 //随机函数
 int basic_random()
 {
@@ -44,14 +50,21 @@ int THREE_MID_RANDOM(int* A, int p, int r)//三数取中，但是会选中重复下标
 	if ((A[r2] - A[r1]) * (A[r2] - A[r3]) <= 0) return r2;
 	if ((A[r3] - A[r2]) * (A[r3] - A[r1]) <= 0) return r3;
 }
-//排序函数
+//辅助函数
 void swap(int* a, int* b)//交换元素
 {
 	int t = *a;
 	*a = *b;
 	*b = t;
 }
+void swap_val(VAL* a, VAL* b)//区间的交换元素
+{
+	VAL t = *a;
+	*a = *b;
+	*b = t;
+}
 
+//排序函数
 int PARTITION(int* A, int p, int r)
 {
 	int x=A[r];
@@ -106,6 +119,32 @@ void PARTITION_Dijkstra(int* A, int p, int r,int *lt,int *gt)//三向切分法
 		}
 		if (A[i] == pivort)
 		{
+			i++;
+		}
+	}
+}
+void PARTITION_VAL(VAL* A, int p, int r, int* lt, int* gt)//模糊区间的三向切分法
+{
+	int pivort = random(p, r), i=p;
+	VAL piv = { A[pivort].a,A[pivort].b };
+	*lt = p, * gt = r;
+	while (i <= *gt)
+	{
+		if (A[i].b < piv.a)
+		{
+			swap(&A[*lt], &A[i]);
+			(*lt)++;
+			i++;
+		}
+		else if (A[i].a > piv.b)
+		{
+			swap(&A[*gt], &A[i]);
+			(*gt)--;
+		}
+		else
+		{
+			piv.a = max(piv.a, A[i].a);
+			piv.b = min(piv.b, A[i].b);
 			i++;
 		}
 	}
@@ -180,6 +219,17 @@ void RE_TAIL_RECURSIVE_QUICKSORT(int* A, int p, int r)//优化的尾递归快速排序
 		}
 	}
 }
+void VAL_QUICKSORT(VAL* A, int p, int r)//三向切分的模糊区间快速排序
+{
+	if (p < r)
+	{
+		int lt = 0, gt = 0;
+		PARTITION_Dijkstra(A, p, r, &lt, &gt);
+		Dijkstra_QUICKSORT(A, p, lt - 1);
+		Dijkstra_QUICKSORT(A, gt + 1, r);
+	}
+}
+
 //输入输出函数
 void input(int* A, int n)
 {
@@ -194,10 +244,27 @@ void output(int* A, int n)
 	}
 	printf("\n");
 }
+void input_val(VAL* A, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		A[i].a = rand() % 30;
+		A[i].b = A[i].a + rand() % 30;
+	}
+}
+void output_val(VAL* A, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("[%d,%d] ", A[i].a,A[i].b);
+	}
+	printf("\n");
+}
 int main()
 {
 	srand(time(NULL));
-	int* array = NULL,n=0;
+	//整数
+	/*int* array = NULL,n=0;
 
 	printf("输入数组大小: \n");
 	scanf_s("%d", &n);
@@ -215,6 +282,29 @@ int main()
 	RE_TAIL_RECURSIVE_QUICKSORT(array, 0, n - 1);
 	printf("排序后数组: \n");
 	output(array, n);
+
+	free(array);*/
+
+	//区间
+	VAL* array = NULL;
+	int n = 0;
+
+	printf("输入数组大小: \n");
+	scanf_s("%d", &n);
+	array = calloc(n, sizeof(VAL));
+	if (array == NULL)
+	{
+		printf("分配失败\n");
+		free(array);
+		exit(0);
+	}
+
+	input_val(array, n);
+	printf("原区间组: \n");
+	output_val(array, n);
+	VAL_QUICKSORT(array, 0, n - 1);
+	printf("排序后区间组: \n");
+	output_val(array, n);
 
 	free(array);
 	return 0;
