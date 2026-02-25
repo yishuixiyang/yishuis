@@ -225,8 +225,8 @@ void VAL_QUICKSORT(VAL* A, int p, int r)//三向切分的模糊区间快速排序
 	{
 		int lt = 0, gt = 0;
 		PARTITION_Dijkstra(A, p, r, &lt, &gt);
-		Dijkstra_QUICKSORT(A, p, lt - 1);
-		Dijkstra_QUICKSORT(A, gt + 1, r);
+		VAL_QUICKSORT(A, p, lt - 1);
+		VAL_QUICKSORT(A, gt + 1, r);
 	}
 }
 
