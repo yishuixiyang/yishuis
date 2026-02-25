@@ -224,7 +224,7 @@ void VAL_QUICKSORT(VAL* A, int p, int r)//三向切分的模糊区间快速排序
 	if (p < r)
 	{
 		int lt = 0, gt = 0;
-		PARTITION_Dijkstra(A, p, r, &lt, &gt);
+		PARTITION_VAL(A, p, r, &lt, &gt);
 		VAL_QUICKSORT(A, p, lt - 1);
 		VAL_QUICKSORT(A, gt + 1, r);
 	}
@@ -240,7 +240,8 @@ void output(int* A, int n)
 {
 	for (int i = 0; i < n; i++)
 	{
-		printf("%d ", A[i]);
+		printf("%2d ", A[i]);
+		if (i % 10 == 9) printf("\n");
 	}
 	printf("\n");
 }
@@ -256,7 +257,8 @@ void output_val(VAL* A, int n)
 {
 	for (int i = 0; i < n; i++)
 	{
-		printf("[%d,%d] ", A[i].a,A[i].b);
+		printf("[%2d,%2d] ", A[i].a,A[i].b);
+		if (i % 10 == 9) printf("\n");
 	}
 	printf("\n");
 }
@@ -289,7 +291,7 @@ int main()
 	VAL* array = NULL;
 	int n = 0;
 
-	printf("输入数组大小: \n");
+	printf("输入区间组大小: \n");
 	scanf_s("%d", &n);
 	array = calloc(n, sizeof(VAL));
 	if (array == NULL)
