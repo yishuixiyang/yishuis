@@ -132,13 +132,13 @@ void PARTITION_VAL(VAL* A, int p, int r, int* lt, int* gt)//模糊区间的三向切分法
 	{
 		if (A[i].b < piv.a)
 		{
-			swap(&A[*lt], &A[i]);
+			swap_val(&A[*lt], &A[i]);
 			(*lt)++;
 			i++;
 		}
 		else if (A[i].a > piv.b)
 		{
-			swap(&A[*gt], &A[i]);
+			swap_val(&A[*gt], &A[i]);
 			(*gt)--;
 		}
 		else
