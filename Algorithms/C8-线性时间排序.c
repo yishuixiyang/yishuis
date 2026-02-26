@@ -1,5 +1,6 @@
 ﻿/*
 	算法导论第八章 线性时间排序
+	文件是utf-8编码65001
 */
 #include <stdio.h>
 #include <stdlib.h>
