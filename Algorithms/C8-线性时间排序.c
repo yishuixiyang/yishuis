@@ -45,7 +45,7 @@ static void COUNTING_SORT(int* A, int* B,int n, int k)
 	for (int i = n - 1; i >= 0; i--)//从n-1遍历到0，保证稳定排序
 	{
 		B[C[A[i]]-1] = A[i];
-		C[A[i]]--;//结束后C为全零
+		C[A[i]]--;
 	}
 	free(C);
 }
