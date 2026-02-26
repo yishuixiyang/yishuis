@@ -42,7 +42,7 @@ static void COUNTING_SORT(int* A, int* B,int n, int k)
 	for (int i = 1; i <= k; i++)
 		C[i] = C[i] + C[i - 1];
 	//把C放入B中 小于等于A[i]的元素个数有m，则A[i]放入B[m-1]
-	for (int i = n - 1; i >= 0; i--)
+	for (int i = n - 1; i >= 0; i--)//从n-1遍历到0，保证稳定排序
 	{
 		B[C[A[i]]-1] = A[i];
 		C[A[i]]--;//结束后C为全零
