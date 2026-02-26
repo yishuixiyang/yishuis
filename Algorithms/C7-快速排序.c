@@ -3,6 +3,7 @@
 
 代码中实现了书中的几种快速排序的实现，
 并且加入的Dijkstra的三向切分法的快速排序
+加入了思考题的模糊区间排序
 */
 #include <stdio.h>
 #include <stdlib.h>
