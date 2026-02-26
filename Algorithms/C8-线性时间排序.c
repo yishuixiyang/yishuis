@@ -19,7 +19,7 @@ static void output(int* A, int n)
 	for (int i = 0; i < n; i++)
 	{
 		printf("%2d ", A[i]);
-		if (i % 10 == 9) printf("\n");
+		//if (i % 10 == 9) printf("\n");
 	}
 	printf("\n");
 }
