@@ -24,7 +24,7 @@ static void output(int* A, int n)
 	printf("\n");
 }
 
-//计数函数  A B不能相同 临时数组范围[0..k]
+//计数排序  A B不能相同 临时数组范围[0..k]
 static void COUNTING_SORT(int* A, int* B,int n, int k)
 {
 	//临时数组C需要全0
@@ -49,9 +49,38 @@ static void COUNTING_SORT(int* A, int* B,int n, int k)
 	}
 	free(C);
 }
+//基数排序 内部排序使用计数排序
+static void RADIX_SORT(int* A,int n, int d)
+{
+	int* B = (int*)calloc(n, sizeof(int));
+	if (B == NULL) { printf("分配失败\n"); return; }
+	int muti = 1;//A[i]/miti%10用来取A[i]的一位数字
+	for (int i = 1; i <= d; i++)
+	{
+		int C[10] = { 0 };
+		for (int j = 0; j < n; j++)
+		{
+			C[A[j]/muti % 10]++;
+
+		}
+		for (int j = 1; j < 10; j++)
+			C[j] = C[j] + C[j - 1];
+		for (int j = n - 1; j >= 0; j--)
+		{
+			B[C[A[j]/muti%10] - 1] = A[j];
+			C[A[j]/muti%10]--;
+		}
+		for (int j = 0; j < n; j++) //排序后修改原数组
+			A[j] = B[j];
+		muti *= 10;
+	}
+	free(B);
+
+}
 int main()
 {
-	int* array = NULL, n = 0;
+	//计数排序测试
+	/*int* array = NULL, n = 0;
 	int* outarray = NULL, k = 0;
 
 	printf("输入数组大小: \n");
@@ -73,11 +102,36 @@ int main()
 
 	COUNTING_SORT(array, outarray, n, 99);
 
-	printf("排序后数组: \n");
+	printf("计数排序后数组: \n");
 	output(outarray, n);
 
 	free(array);
-	free(outarray);
+	free(outarray);*/
+
+	//基数排序测试
+	int* array = NULL, n = 0;
+
+	printf("输入数组大小: \n");
+	scanf_s("%d", &n);
+	array = calloc(n, sizeof(int));
+	if (array == NULL)
+	{
+		printf("分配失败\n");
+		free(array);
+		exit(0);
+	}
+
+	input(array, n);
+
+	printf("原数组: \n");
+	output(array, n);
+
+	RADIX_SORT(array,n, 2);
+
+	printf("基数排序后数组: \n");
+	output(array, n);
+
+	free(array);
 
 	return 0;
 }
