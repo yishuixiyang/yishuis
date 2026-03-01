@@ -1,6 +1,9 @@
 ﻿/*
 	算法导论第八章 线性时间排序
+
 	文件是utf-8编码65001
+	写了基数排序按二进制位排序的形式
+	引理8-4的每次按r位二进制排序没有实现（因为左移会溢出）
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,8 +80,36 @@ static void RADIX_SORT(int* A,int n, int d)
 	free(B);
 
 }
+//基数排序 二进制版本
+static void BINARY_RADIX_SORT(int* A,int n, int d)
+{
+	int* B = (int*)calloc(n, sizeof(int));
+	if (B == NULL) { printf("分配失败\n"); return; }
+	int C[2] = { 0 };
+	//A[j] >> (n - 1) & 1用来取A[j]的第n位数字
+	for (int i = 1; i <= d; i++)
+	{
+		C[0] = 0, C[1] = 0;
+		for (int j = 0; j < n; j++)
+		{
+			C[A[j] >> (i - 1) & 1]++;
+
+		}
+		C[1] += C[0];
+		for (int j = n - 1; j >= 0; j--)
+		{
+			B[C[A[j] >> (i - 1) & 1] - 1] = A[j];
+			C[A[j] >> (i - 1) & 1]--;
+		}
+		for (int j = 0; j < n; j++) //排序后修改原数组
+			A[j] = B[j];
+	}
+	free(B);
+
+}
 int main()
 {
+	srand(time(NULL));
 	//计数排序测试
 	/*int* array = NULL, n = 0;
 	int* outarray = NULL, k = 0;
@@ -126,7 +157,7 @@ int main()
 	printf("原数组: \n");
 	output(array, n);
 
-	RADIX_SORT(array,n, 2);
+	BINARY_RADIX_SORT(array,n, 7);
 
 	printf("基数排序后数组: \n");
 	output(array, n);
