@@ -4,10 +4,19 @@
 	文件是utf-8编码65001
 	写了基数排序按二进制位排序的形式
 	引理8-4的每次按r位二进制排序没有实现（因为左移会溢出）
+
+	桶排序有点难办，我还没有学链表操作
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+//链表
+typedef struct EE 
+{ 
+	int val; 
+	struct EE* next; 
+} VT;
+
 int AHeapSize = 0;
 void* (*ciallo)(size_t) = malloc;//Ciallo～(∠・ω< )⌒★
 //输入函数
@@ -23,6 +32,31 @@ static void output(int* A, int n)
 	{
 		printf("%2d ", A[i]);
 		//if (i % 10 == 9) printf("\n");
+	}
+	printf("\n");
+}
+
+/*链表操作*/
+//链表构造
+static VT* build_chain_table(int n)
+{
+	VT* head = (VT*)calloc(n, sizeof(VT));
+	if (head == NULL) { printf("分配失败\n"); return NULL; }
+	VT* p = head;
+	for (int i = 0; i < n-1; i++)
+	{
+		p[i].val = rand() % 100;
+		p[i].next = &p[i+1];
+	}
+	p[n - 1].val = rand() % 100;
+	p[n - 1].next = NULL;
+	return head;
+}
+static void output_chain_table(VT* head)
+{
+	for (VT* p = head; p != NULL; p = p->next)
+	{
+		printf("%d ", p->val);
 	}
 	printf("\n");
 }
@@ -52,6 +86,7 @@ static void COUNTING_SORT(int* A, int* B,int n, int k)
 	}
 	free(C);
 }
+
 //基数排序 内部排序使用计数排序
 static void RADIX_SORT(int* A,int n, int d)
 {
@@ -107,6 +142,8 @@ static void BINARY_RADIX_SORT(int* A,int n, int d)
 	free(B);
 
 }
+
+//桶排序
 int main()
 {
 	srand(time(NULL));
@@ -140,7 +177,7 @@ int main()
 	free(outarray);*/
 
 	//基数排序测试
-	int* array = NULL, n = 0;
+	/*int* array = NULL, n = 0;
 
 	printf("输入数组大小: \n");
 	scanf_s("%d", &n);
@@ -162,7 +199,19 @@ int main()
 	printf("基数排序后数组: \n");
 	output(array, n);
 
-	free(array);
+	free(array);*/
 
+	//桶排序
+	VT* array = NULL;
+	int n = 0;
+	printf("输入数组大小: \n");
+	scanf_s("%d", &n);
+	
+	array = build_chain_table(n);
+
+	printf("原数组: \n");
+	output_chain_table(array);
+
+	free(array);
 	return 0;
 }
