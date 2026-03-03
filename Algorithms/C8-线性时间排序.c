@@ -56,7 +56,7 @@ static void output_chain_table(VT* head)
 {
 	for (VT* p = head; p != NULL; p = p->next)
 	{
-		printf("%d ", p->val);
+		printf("%p:%d -> ",p, p->val);
 	}
 	printf("\n");
 }
@@ -204,12 +204,12 @@ int main()
 	//桶排序
 	VT* array = NULL;
 	int n = 0;
-	printf("输入数组大小: \n");
+	printf("输入链表大小: \n");
 	scanf_s("%d", &n);
 	
 	array = build_chain_table(n);
 
-	printf("原数组: \n");
+	printf("原链表: \n");
 	output_chain_table(array);
 
 	free(array);
