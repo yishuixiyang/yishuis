@@ -1,12 +1,13 @@
 /*
 *  中位数和顺序统计量
 *	引入了C7中的部分函数
+*   因为个人时间问题，部分代码会使用AI来编写，但是思路还是自己想的。
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-void* (*ciallo)(size_t) = malloc;
+static void* (*ciallo)(size_t) = malloc;
 //输入函数
 static void input(int* A, int n)
 {
@@ -24,14 +25,14 @@ static void output(int* A, int n)
 	printf("\n");
 }
 //辅助函数
-void swap(int* a, int* b)//交换元素
+static void swap(int* a, int* b)//交换元素
 {
 	int t = *a;
 	*a = *b;
 	*b = t;
 }
 //随机函数
-int basic_random()
+static int basic_random()
 {
 	int a = 0, b = 0;
 	while (1)
@@ -41,7 +42,7 @@ int basic_random()
 		if (a != b) return a;
 	}
 }
-int random(int a, int b) //随机生成[a..b]的整数范围Z
+static int random(int a, int b) //随机生成[a..b]的整数范围Z
 {
 	int n = b - a, size = 0, num = 0;
 	if (n == 0) return a;
@@ -57,7 +58,7 @@ int random(int a, int b) //随机生成[a..b]的整数范围Z
 	}
 }
 //排序函数
-int PARTITION(int* A, int p, int r)
+static int PARTITION(int* A, int p, int r)
 {
 	int x = A[r];
 	int i = p - 1, t = 0;
@@ -72,7 +73,7 @@ int PARTITION(int* A, int p, int r)
 	swap(&A[i + 1], &A[r]);
 	return i + 1;
 }
-int RANDOMIZED_PARTITION(int* A, int p, int r)
+static int RANDOMIZED_PARTITION(int* A, int p, int r)
 {
 	int i = random(p, r);
 	swap(&A[i], &A[r]);
@@ -129,6 +130,24 @@ static int RANDOMIZED_SELECT(int *A,int p,int r,int i)
 	if (i == k) return A[q];
 	else if (i < k)	return RANDOMIZED_SELECT(A, p, q - 1, i);
 	else return RANDOMIZED_SELECT(A, q + 1, r, i - k);
+}
+//循环版本的期望为线性时间的选择算法
+static int RANDOMIZED_SELECT_ITERATIVE(int* A, int p, int r, int i)
+{
+	int k = 0, q = 0;
+	while (p < r)
+	{
+		q = RANDOMIZED_PARTITION(A, p, r);
+		k = q - p + 1;
+		if (i == k) return A[q];
+		else if (i < k) r = q - 1;
+		else
+		{
+			p = q + 1;
+			i = i - k;
+		}
+	}
+	return A[p];
 }
 int main()
 {
