@@ -187,7 +187,7 @@ static int RANDOMIZED_SELECT_ITERATIVE(int* A, int p, int r, int i)
 	return A[p];
 }
 //最坏情况为线性时间的选择算法
-static int SELECT(int* A, int p, int r, int i)
+static int SELECT(int* A, int p, int r, int i) //O(n)=cn c>=20
 {
 	if (p == r) return A[p];
 	int sum = ceil((r - p + 1) / 5.0);
