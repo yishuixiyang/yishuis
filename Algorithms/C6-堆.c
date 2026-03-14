@@ -136,7 +136,7 @@ void HEAP_INCREASE_MAX(int A[],int i,int key)
 void MAX_HEAP_INSERT(int** A,int key)//传入堆的指针的地址来更增加改堆的大小
 {
 	AHeapSize+=1;
-	int *t=realloc(*A, AHeapSize*sizeof(int));
+	int *t=(int*)realloc(*A, AHeapSize*sizeof(int));
 	if (t == NULL)
 	{
 		printf("失败\n");
@@ -184,7 +184,7 @@ void HEAP_INCREASE_MIN(int A[], int i, int key)
 void MIN_HEAP_INSERT(int** A, int key)//传入堆的指针的地址来更增加改堆的大小
 {
 	AHeapSize += 1;
-	int* t = realloc(*A, AHeapSize * sizeof(int));
+	int* t = (int *)realloc(*A, AHeapSize * sizeof(int));
 	if (t == NULL)
 	{
 		printf("失败\n");

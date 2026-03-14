@@ -6,13 +6,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include<math.h>
 
 static void* (*ciallo)(size_t) = malloc;
 //输入函数
 static void input(int* A, int n)
 {
 	for (int i = 0; i < n; i++)
-		A[i] = rand() % 100;
+		A[i] = random(0,99);
 }
 //输出函数 
 static void output(int* A, int n)
@@ -61,7 +62,7 @@ static int random(int a, int b) //随机生成[a..b]的整数范围Z
 static int PARTITION(int* A, int p, int r)
 {
 	int x = A[r];
-	int i = p - 1, t = 0;
+	int i = p - 1;
 	for (int j = p; j < r; j++)
 	{
 		if (A[j] <= x)
@@ -73,13 +74,49 @@ static int PARTITION(int* A, int p, int r)
 	swap(&A[i + 1], &A[r]);
 	return i + 1;
 }
+static int RE_PARTITION(int* A, int p, int r,int x)
+{
+	int i = p - 1;
+	for (int j = p; j <= r; j++)
+	{
+		if (A[j] == x)
+		{
+			swap(&A[j], &A[r]);
+			break;
+		}
+	}
+	for (int j = p; j < r; j++)
+	{
+		if (A[j] <= x)
+		{
+			i++;
+			swap(&A[j], &A[i]);
+		}
+	}
+	swap(&A[i+1], &A[r]);
+	return i + 1;
+}
 static int RANDOMIZED_PARTITION(int* A, int p, int r)
 {
 	int i = random(p, r);
 	swap(&A[i], &A[r]);
 	return PARTITION(A, p, r);
 }
-
+static void insert(int array[], int p,int r)
+{
+	int a = 0, j = 0;
+	for (int i = p+1; i <= r; i++)
+	{
+		a = array[i];
+		j = i - 1;
+		while (j >= 0 && array[j] > a)
+		{
+			array[j + 1] = array[j];
+			j = j - 1;
+		}
+		array[j + 1] = a;
+	}
+}
 
 //选择最大和最小值
 static void MIN_MAX_SELECT(int* A, int n, int* max, int* min)
@@ -149,8 +186,33 @@ static int RANDOMIZED_SELECT_ITERATIVE(int* A, int p, int r, int i)
 	}
 	return A[p];
 }
+//最坏情况为线性时间的选择算法
+static int SELECT(int* A, int p, int r, int i)
+{
+	if (p == r) return A[p];
+	int sum = ceil((r - p + 1) / 5.0);
+	int *mid = (int*)calloc(sum, sizeof(int));
+	if (mid == NULL) { printf("分配失败\n"); exit(EXIT_FAILURE); }
+	int t = 0, s = 0;
+	for (int k = 0; k <sum; k++)
+	{
+		t = p + 5 * k;
+		s = t + 4 > r ? r : t + 4;
+		insert(A, t, s);
+		mid[k] = A[t+(s-t)/2];
+	}
+	int x = SELECT(mid, 0, sum - 1, (sum + 1) >> 1);
+	free(mid);
+	int q = RE_PARTITION(A, p, r, x);
+	int k = q - p + 1;
+
+	if (i == k) return A[q];
+	else if (i < k)	return SELECT(A, p, q - 1, i);
+	else return SELECT(A, q + 1, r, i - k);
+}
 int main()
 {
+	//srand(time(NULL));
 	int* array = NULL, n = 0;
 	int max = 0, min = 0,s=0;
 	printf("输入数组大小: \n");
@@ -164,8 +226,8 @@ int main()
 	output(array, n);
 
 	MIN_MAX_SELECT(array, n, &max, &min);
-	s=RANDOMIZED_SELECT(array, 0, n - 1, 4);
-	printf("最大值: %d 最小值: %d\n第4个顺序统计量 %d \n", max, min,s);
+	s = SELECT(array, 0, n - 1, (n + 1) >> 1);
+	printf("最大值: %d 最小值: %d\n 中位数 %d \n", max, min, s);
 	output(array, n);
 	free(array);
 }
