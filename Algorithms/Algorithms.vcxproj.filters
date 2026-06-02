@@ -36,5 +36,8 @@
     <ClCompile Include="C10-基本数据结构.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="C15-2矩阵链乘.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

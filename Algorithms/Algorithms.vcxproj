@@ -20,8 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C10-基本数据结构.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="C15-2矩阵链乘.cpp" />
     <ClCompile Include="C8-线性时间排序.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
